@@ -72,11 +72,13 @@ void BST_INSERT(struct Arbol* arbol, struct Nodo* y, struct Nodo* z)
 
 void RB_INSERT(struct Arbol* arbol, struct Nodo* z)
 {
-    //PASO 1: BST INSERTION
+    //PASO 1: BST INSERTION con color rojo
     BST_INSERT(arbol,arbol->NIL, z);
     z->Left = arbol->NIL;
     z->Right = arbol->NIL;
     z->isRed = true;
+    //PASO 2: RB Insert FIXUP pagina 316
+
 }
 
 int main() 
