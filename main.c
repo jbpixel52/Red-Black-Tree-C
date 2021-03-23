@@ -23,6 +23,11 @@ struct Arbol
     struct Nodo* NIL; //NIL
 };
 
+void LEFT_ROTATE(struct Arbol* arbol, struct Nodo* z)
+{
+
+}
+
 void BST_INSERT(struct Arbol* arbol, struct Nodo* y, struct Nodo* z)
 {
     //Z = to insert
@@ -30,6 +35,8 @@ void BST_INSERT(struct Arbol* arbol, struct Nodo* y, struct Nodo* z)
     if(arbol->Root == arbol->NIL)
     {
         arbol->Root = z;
+        //Diagrama B del libro, los NILS crean un ciclo
+        arbol->Root->Padre = arbol->NIL;
         return;
     }
     else if(arbol->Root !=arbol->NIL)
@@ -70,14 +77,72 @@ void BST_INSERT(struct Arbol* arbol, struct Nodo* y, struct Nodo* z)
     }
 }
 
+void RB_INSERT_FIXUP(struct Arbol* arbol, struct Nodo* z)
+{
+    struct Nodo* y;
+    while(z->Padre->isRed)
+    {
+        //Si Z esta del lado izquierdo de su abuelo
+        if(z->Padre == z->Padre->Padre->Left)
+        {
+            //Y es igual al TIO
+            y = z->Padre->Padre->Right;
+            if(y->isRed)
+            {
+                z->Padre->isRed = false;
+                y->isRed = false;
+                z->Padre->Padre->isRed = true;
+                z = z->Padre->Padre;
+            }
+            else if(z == z->Padre->Right)
+            {
+                z = z->Padre;
+                //Left rotate(T,z);
+            }
+            //Hacer padre negro y abuelo rojo para
+            //  cumplir condiciones de no 2 rojos
+            z->Padre->isRed = false;
+            z->Padre->Padre->isRed = true;
+            //Right rotate(T, z);
+        }
+        //Si z esta del lado derecho del abuelo
+        else if(z->Padre == z->Padre->Padre->Right)
+        {
+            //Mismo pero left y right reverso
+            //Y es igual al TIO
+            y = z->Padre->Padre->Left;
+            if(y->isRed)
+            {
+                z->Padre->isRed = false;
+                y->isRed = false;
+                z->Padre->Padre->isRed = true;
+                z = z->Padre->Padre;
+            }
+            else if(z == z->Padre->Left)
+            {
+                z = z->Padre;
+                //Left rotate(T,z);
+            }
+            //Hacer padre negro y abuelo rojo para
+            //  cumplir condiciones de no 2 rojos
+            z->Padre->isRed = false;
+            z->Padre->Padre->isRed = true;
+             //Right rotate(T, z);
+        }
+        arbol->Root->isRed = false;
+    }
+}
+
 void RB_INSERT(struct Arbol* arbol, struct Nodo* z)
 {
+    //z es el nodo por insertar
     //PASO 1: BST INSERTION con color rojo
     BST_INSERT(arbol,arbol->NIL, z);
     z->Left = arbol->NIL;
     z->Right = arbol->NIL;
     z->isRed = true;
     //PASO 2: RB Insert FIXUP pagina 316
+    RB_INSERT_FIXUP(arbol,z);
 
 }
 
@@ -108,6 +173,7 @@ int main()
     RB_INSERT(&tree, &nodo2);
     RB_INSERT(&tree, &nodo3);
     RB_INSERT(&tree, &nodo4);
+    //Este uktimo es para breakpoint
     RB_INSERT(&tree, &nodo5);
     //RB_INSERT(&tree, &nodo1);
     // printf() displays the string inside quotation
