@@ -23,31 +23,10 @@ struct Arbol
     struct Nodo* NIL; //NIL
 };
 
-void LEFT_ROTATE(struct Arbol* arbol, struct Nodo* x)
+void LEFT_ROTATE(struct Arbol* arbol, struct Nodo* z)
 {
-    struct Nodo* y = x->Right;
-    x->Right = y->Left;
-    if(y->Left != arbol->NIL && y != arbol->NIL)
-    {
-        y->Left->Padre = x;
-    }
-    y->Padre = x->Padre;
-    if(x->Padre == arbol->NIL)
-    {
-        arbol->Root = y;
-    }
-    else if(x == x->Padre->Left)
-    {
-        x->Padre->Left = y;
-    }
-    else
-    {
-        x->Padre->Right = y;
-    }
-    y->Left = x;
-    x->Padre = y;
-}
 
+<<<<<<< HEAD
 void RIGHT_ROTATE(struct Arbol* arbol, struct Nodo* x)
 {
     struct Nodo* y = x->Left;
@@ -71,6 +50,8 @@ void RIGHT_ROTATE(struct Arbol* arbol, struct Nodo* x)
     }
     y->Right = x;
     x->Padre = y;
+=======
+>>>>>>> parent of c23ba2b (Broken rotations)
 }
 
 void BST_INSERT(struct Arbol* arbol, struct Nodo* y, struct Nodo* z)
@@ -142,13 +123,13 @@ void RB_INSERT_FIXUP(struct Arbol* arbol, struct Nodo* z)
             else if(z == z->Padre->Right)
             {
                 z = z->Padre;
-                LEFT_ROTATE(arbol,z);
+                //Left rotate(T,z);
             }
             //Hacer padre negro y abuelo rojo para
             //  cumplir condiciones de no 2 rojos
             z->Padre->isRed = false;
             z->Padre->Padre->isRed = true;
-            RIGHT_ROTATE(arbol, z);
+            //Right rotate(T, z);
         }
         //Si z esta del lado derecho del abuelo
         else if(z->Padre == z->Padre->Padre->Right)
@@ -166,16 +147,16 @@ void RB_INSERT_FIXUP(struct Arbol* arbol, struct Nodo* z)
             else if(z == z->Padre->Left)
             {
                 z = z->Padre;
-                LEFT_ROTATE(arbol,z);
+                //Left rotate(T,z);
             }
             //Hacer padre negro y abuelo rojo para
             //  cumplir condiciones de no 2 rojos
             z->Padre->isRed = false;
             z->Padre->Padre->isRed = true;
-            RIGHT_ROTATE(arbol,z);
+             //Right rotate(T, z);
         }
+        arbol->Root->isRed = false;
     }
-    arbol->Root->isRed = false;
 }
 
 void RB_INSERT(struct Arbol* arbol, struct Nodo* z)
@@ -213,21 +194,16 @@ int main()
     nodo4.Key = 28;
     struct Nodo nodo5;
     nodo5.Key = 19;
-    struct Nodo nodo6;
-    nodo6.Key = 11;
-    struct Nodo nodo7;
-    nodo7.Key = 14;
-    struct Nodo nodo8;
-    nodo8.Key = 66;
 
     RB_INSERT(&tree, &nodo1);
     RB_INSERT(&tree, &nodo2);
     RB_INSERT(&tree, &nodo3);
     RB_INSERT(&tree, &nodo4);
+    //Este uktimo es para breakpoint
     RB_INSERT(&tree, &nodo5);
-    RB_INSERT(&tree, &nodo6);
-    RB_INSERT(&tree, &nodo7);
-    RB_INSERT(&tree, &nodo8);
+    //RB_INSERT(&tree, &nodo1);
+    // printf() displays the string inside quotation
+    //printf("Valor raiz = %d",raiz.Key);
     printf("\n");
     return 0;
 }
