@@ -52,11 +52,9 @@ void RIGHT_ROTATE(struct Arbol* arbol, struct Nodo* x)
 {
     struct Nodo* y = x->Left;
     x->Left = y->Right;
-    //El segundo condicional es dado que 0x0 no es lo mismo que sentinela o null
-    if(y->Right != arbol->NIL || y->Right->Padre != NULL)
+    if(y->Right != NULL)
     {
-        //printf(y->Right);
-        y->Right->Padre = x;
+        y->Right->Padre =x;
     }
     y->Padre = x->Padre;
     if(x->Padre == arbol->NIL)
