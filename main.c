@@ -23,18 +23,40 @@ struct Arbol
     struct Nodo* NIL; //NIL
 };
 
-void LEFT_ROTATE(struct Arbol* arbol, struct Nodo* z)
+void LEFT_ROTATE(struct Arbol* arbol, struct Nodo* x)
 {
+    struct Nodo* y = x->Right;
+    x->Right = y->Left;
+    if(y->Left != arbol->NIL && y != arbol->NIL)
+    {
+        y->Left->Padre = x;
+    }
+    y->Padre = x->Padre;
+    if(x->Padre == arbol->NIL)
+    {
+        arbol->Root = y;
+    }
+    else if(x == x->Padre->Left)
+    {
+        x->Padre->Left = y;
+    }
+    else
+    {
+        x->Padre->Right = y;
+    }
+    y->Left = x;
+    x->Padre = y;
+}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 void RIGHT_ROTATE(struct Arbol* arbol, struct Nodo* x)
 {
     struct Nodo* y = x->Left;
     x->Left = y->Right;
-    if(y->Right != NULL)
+    //El segundo condicional es dado que 0x0 no es lo mismo que sentinela o null
+    if(y->Right != arbol->NIL || y->Right->Padre != NULL)
     {
-        y->Right->Padre =x;
+        //printf(y->Right);
+        y->Right->Padre = x;
     }
     y->Padre = x->Padre;
     if(x->Padre == arbol->NIL)
@@ -51,10 +73,6 @@ void RIGHT_ROTATE(struct Arbol* arbol, struct Nodo* x)
     }
     y->Right = x;
     x->Padre = y;
-=======
->>>>>>> parent of c23ba2b (Broken rotations)
-=======
->>>>>>> parent of c23ba2b (Broken rotations)
 }
 
 void BST_INSERT(struct Arbol* arbol, struct Nodo* y, struct Nodo* z)
@@ -126,13 +144,13 @@ void RB_INSERT_FIXUP(struct Arbol* arbol, struct Nodo* z)
             else if(z == z->Padre->Right)
             {
                 z = z->Padre;
-                //Left rotate(T,z);
+                LEFT_ROTATE(arbol,z);
             }
             //Hacer padre negro y abuelo rojo para
             //  cumplir condiciones de no 2 rojos
             z->Padre->isRed = false;
             z->Padre->Padre->isRed = true;
-            //Right rotate(T, z);
+            RIGHT_ROTATE(arbol,z);
         }
         //Si z esta del lado derecho del abuelo
         else if(z->Padre == z->Padre->Padre->Right)
@@ -150,13 +168,13 @@ void RB_INSERT_FIXUP(struct Arbol* arbol, struct Nodo* z)
             else if(z == z->Padre->Left)
             {
                 z = z->Padre;
-                //Left rotate(T,z);
+                LEFT_ROTATE(arbol,z);
             }
             //Hacer padre negro y abuelo rojo para
             //  cumplir condiciones de no 2 rojos
             z->Padre->isRed = false;
             z->Padre->Padre->isRed = true;
-             //Right rotate(T, z);
+            RIGHT_ROTATE(arbol,z);
         }
         arbol->Root->isRed = false;
     }
