@@ -27,6 +27,7 @@ void LEFT_ROTATE(struct Arbol* arbol, struct Nodo* z)
 {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void RIGHT_ROTATE(struct Arbol* arbol, struct Nodo* x)
 {
     struct Nodo* y = x->Left;
@@ -50,6 +51,8 @@ void RIGHT_ROTATE(struct Arbol* arbol, struct Nodo* x)
     }
     y->Right = x;
     x->Padre = y;
+=======
+>>>>>>> parent of c23ba2b (Broken rotations)
 =======
 >>>>>>> parent of c23ba2b (Broken rotations)
 }
